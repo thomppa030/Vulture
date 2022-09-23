@@ -1,9 +1,11 @@
 #include <iostream>
+#include <VulkanRenderer.h>
 #include <fmt/format.h>
+#include <memory>
 
 int main() {
-    const char* s = "Kappa";
-    std::cout << fmt::format("Hello, {}!", "Mom!") << std::endl;
-    std::cout << fmt::format("I don't this is useable at all! {}", s) << std::endl;
-    return 0;
+
+	std::unique_ptr<VulkanRenderer> renderer = std::make_unique<VulkanRenderer>();
+
+	renderer->Run();
 }
