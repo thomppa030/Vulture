@@ -3,6 +3,7 @@
 
 /build
 /.cache
+/includes
 
 # Compiled Object files
 *.slo
