@@ -1,11 +1,13 @@
+#include "pch.h"
 #include "VulkanRenderer.h"
-#include "VulkanInstance.h"
 #include "VulkanWindow.h"
+#include "VulkanDebugMessenger.h"
 
 VulkanRenderer::VulkanRenderer()
 {
     m_VulkanInstance = new VulkanInstance();
     m_VulkanWindow = new VulkanWindow();
+    m_VulkanDebugMessenger = new VulkanDebugMessenger(m_VulkanInstance->GetInstance());
 }
 
 VulkanRenderer::~VulkanRenderer()
@@ -14,26 +16,20 @@ VulkanRenderer::~VulkanRenderer()
     delete m_VulkanWindow;
 }
 
-void VulkanRenderer::Init()
-{
-}
-
 void VulkanRenderer::Run()
 {
-   Init();
-   RenderLoop();
-   Shutdown();
+    RenderLoop();
+    Shutdown();
 }
 
 void VulkanRenderer::RenderLoop()
 {
-   while (!glfwWindowShouldClose(m_VulkanWindow->GetWindow()))
-   {
-       glfwPollEvents();
-   }
+    while (!glfwWindowShouldClose(m_VulkanWindow->GetWindow()))
+    {
+        glfwPollEvents();
+    }
 }
 
 void VulkanRenderer::Shutdown()
 {
 }
-

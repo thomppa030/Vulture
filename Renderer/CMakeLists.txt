@@ -1,12 +1,5 @@
-set(RENDERER_SOURCES
-	"VulkanInstance.cpp"
-	"VulkanRenderer.cpp"
-	"VulkanWindow.cpp")
-
-set(RENDERER_HEADERS
-	"VulkanInstance.h"
-	"VulkanRenderer.h"
-	"VulkanWindow.h")
+file(GLOB SRC_FILES *.cpp)
+file(GLOB HDR_FILES *.h)
 
 set(RENDERER_INCLUDES
 	"../build/_deps/glfw-src/include"
@@ -15,8 +8,8 @@ set(RENDERER_INCLUDES
 find_package(Vulkan REQUIRED)
 
 add_library(Renderer STATIC 
-	${RENDERER_SOURCES} 
-	${RENDERER_HEADERS})
+	${SRC_FILES} 
+	${HDR_FILES})
 
 target_include_directories(Renderer PUBLIC 
 	${RENDERER_INCLUDES}
@@ -24,5 +17,8 @@ target_include_directories(Renderer PUBLIC
 
 target_link_libraries(Renderer PUBLIC
 	glfw
+	fmt::fmt
 	Vulkan::Vulkan)
+
+target_precompile_headers(Renderer PRIVATE "pch.h")
 

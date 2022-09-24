@@ -1,5 +1,6 @@
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
+#ifndef VULKAN_INSTANCE_H
+#define VULKAN_INSTANCE_H
+#include "pch.h"
 	
 class VulkanInstance {
 
@@ -14,3 +15,5 @@ public:
 private:
     VkInstance m_Instance;
 };
+
+#endif // VULKAN_INSTANCE_H
