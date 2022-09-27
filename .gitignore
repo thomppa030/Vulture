@@ -3,7 +3,7 @@
 
 /build
 /.cache
-/includes
+/includes/GLFW
 /.idea
 /.vscode
 
