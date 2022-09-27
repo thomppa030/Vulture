@@ -1,7 +1,8 @@
 #ifndef VULKAN_INSTANCE_H
 #define VULKAN_INSTANCE_H
 #include "pch.h"
-	
+
+
 class VulkanInstance {
 
 public:
@@ -13,7 +14,10 @@ public:
 
 
 private:
+
     VkInstance m_Instance;
+    VkDebugUtilsMessengerEXT m_DebugMessenger;
+    class VulkanDebugMessenger* m_VulkanDebugMessenger;
 };
 
 #endif // VULKAN_INSTANCE_H

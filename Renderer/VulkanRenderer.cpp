@@ -1,23 +1,23 @@
 #include "pch.h"
 #include "VulkanRenderer.h"
+#include "VulkanInstance.h"
 #include "VulkanWindow.h"
 #include "VulkanDebugMessenger.h"
 
 VulkanRenderer::VulkanRenderer()
 {
-    m_VulkanInstance = new VulkanInstance();
-    m_VulkanWindow = new VulkanWindow();
-    m_VulkanDebugMessenger = new VulkanDebugMessenger(m_VulkanInstance->GetInstance());
+    SCOPED_TIMER;
+    m_VulkanInstance = std::make_shared<VulkanInstance>();
+    m_VulkanWindow =  std::make_shared<VulkanWindow>();
 }
 
 VulkanRenderer::~VulkanRenderer()
 {
-    delete m_VulkanInstance;
-    delete m_VulkanWindow;
 }
 
 void VulkanRenderer::Run()
 {
+    SCOPED_TIMER;
     RenderLoop();
     Shutdown();
 }

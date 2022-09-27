@@ -1,3 +1,7 @@
+#ifndef VULKA_RENDERER_H
+#define VULKA_RENDERER_H
+#include "pch.h"
+
 class VulkanRenderer
 {
 public:
@@ -9,7 +13,9 @@ public:
     void Shutdown();
 
 private:
-    class VulkanInstance *m_VulkanInstance;
-    class VulkanWindow *m_VulkanWindow;
-    class VulkanDebugMessenger *m_VulkanDebugMessenger;
+    std::shared_ptr<class VulkanInstance> m_VulkanInstance;
+    std::shared_ptr<class VulkanWindow> m_VulkanWindow;
+    // std::shared_ptr<class VulkanDebugMessenger> m_VulkanDebugMessenger;
 };
+
+#endif // VULKA_RENDERER_H

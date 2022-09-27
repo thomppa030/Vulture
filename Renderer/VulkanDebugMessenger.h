@@ -1,9 +1,6 @@
 #ifndef VULKAN_DEBUG_MESSENGER_H
 #define VULKAN_DEBUG_MESSENGER_H
 #include "pch.h"
-#include "VulkanInstance.h"
-#include "VulkanValidation.h"
-
 
 class VulkanDebugMessenger
 {
@@ -11,21 +8,27 @@ public:
     VulkanDebugMessenger(VkInstance instance);
     ~VulkanDebugMessenger();
 
-    VkDebugUtilsMessengerEXT GetDebugMessenger() const { return m_debugMessenger; }
+    void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &info);
+    void SetupDebugMessenger();
 
 private:
 
-    VkInstance m_instance;
-    VkDebugUtilsMessengerEXT m_debugMessenger;
+    VkInstance m_Instance;
+    VkDebugUtilsMessengerEXT m_DebugMessenger;
 
-    static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(
-        VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-        VkDebugUtilsMessageTypeFlagsEXT messageType,
-        const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
-        void* pUserData);
+    static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+                                                        VkDebugUtilsMessageTypeFlagsEXT messageType,
+                                                        const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
+                                                        void *pUserData);
 
-    void SetupDebugMessenger();
-    void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+    void DestroyDebugUtilsMessengerEXT(VkInstance instance,
+                                       VkDebugUtilsMessengerEXT debugMessenger,
+                                       const VkAllocationCallbacks *pAllocator);
+
+    VkResult CreateDebugUtilsMessengerEXT(VkInstance instance,
+                                          const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
+                                          const VkAllocationCallbacks *pAllocator,
+                                          VkDebugUtilsMessengerEXT *pDebugMessenger);
 };
 
 #endif // VULKAN_DEBUG_MESSENGER_H

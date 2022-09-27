@@ -3,6 +3,7 @@ file(GLOB HDR_FILES *.h)
 
 set(RENDERER_INCLUDES
 	"../build/_deps/glfw-src/include"
+	"../includes"
 	"${CMAKE_CURRENT_SOURCE_DIR}")
 
 find_package(Vulkan REQUIRED)

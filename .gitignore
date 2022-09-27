@@ -4,6 +4,8 @@
 /build
 /.cache
 /includes
+/.idea
+/.vscode
 
 # Compiled Object files
 *.slo
