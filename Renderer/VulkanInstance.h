@@ -18,6 +18,7 @@ private:
     VkInstance m_Instance;
     VkDebugUtilsMessengerEXT m_DebugMessenger;
     class VulkanDebugMessenger* m_VulkanDebugMessenger;
+    class VulkanLogicalDevice* m_VulkanLogicalDevice;
 };
 
 #endif // VULKAN_INSTANCE_H

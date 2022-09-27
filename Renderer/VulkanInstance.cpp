@@ -1,5 +1,6 @@
 #include "VulkanInstance.h"
 #include "VulkanDebugMessenger.h"
+#include "VulkanDevice.h"
 #include "VulkanValidation.h"
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -10,11 +11,13 @@ VulkanInstance::VulkanInstance()
     SCOPED_TIMER;
     createInstance();
     m_VulkanDebugMessenger = new VulkanDebugMessenger(m_Instance);
+    m_VulkanLogicalDevice = new VulkanLogicalDevice(m_Instance);
 }
 
 VulkanInstance::~VulkanInstance()
 {
     SCOPED_TIMER;
+    delete m_VulkanLogicalDevice;
     delete m_VulkanDebugMessenger;
     vkDestroyInstance(m_Instance, nullptr);
 }
