@@ -32,6 +32,10 @@ private:
     bool m_Stopped;
 };
 
+#ifndef NDEBUG
 #define SCOPED_TIMER ScopedTimer timer(__FUNCTION__);
+#else
+#define SCOPED_TIMER
+#endif
 
 #endif // SCOPEDTIMER_H

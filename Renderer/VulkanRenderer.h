@@ -8,14 +8,15 @@ public:
     VulkanRenderer();
     ~VulkanRenderer();
 
+    void initWindow();
     void Run();
     void RenderLoop();
     void Shutdown();
 
 private:
     std::shared_ptr<class VulkanInstance> m_VulkanInstance;
-    std::shared_ptr<class VulkanWindow> m_VulkanWindow;
-    // std::shared_ptr<class VulkanDebugMessenger> m_VulkanDebugMessenger;
+    std::shared_ptr<class VulkanSurface> m_VulkanSurface;
+    GLFWwindow *m_Window;
 };
 
 #endif // VULKA_RENDERER_H

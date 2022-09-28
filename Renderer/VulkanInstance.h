@@ -3,22 +3,30 @@
 #include "pch.h"
 
 
-class VulkanInstance {
+class VulkanInstance
+{
 
 public:
-    VulkanInstance();
+    VulkanInstance(GLFWwindow *window);
     ~VulkanInstance();
 
     void createInstance();
-    VkInstance GetInstance() const { return m_Instance; }
-
+    static VkInstance GetInstance()
+    {
+        return m_Instance;
+    }
 
 private:
+    GLFWwindow *m_Window;
 
-    VkInstance m_Instance;
     VkDebugUtilsMessengerEXT m_DebugMessenger;
-    class VulkanDebugMessenger* m_VulkanDebugMessenger;
-    class VulkanLogicalDevice* m_VulkanLogicalDevice;
+
+    class VulkanDebugMessenger *m_VulkanDebugMessenger;
+    class VulkanSurface *m_VulkanSurface;
+    class VulkanPhysicalDevice *m_VulkanPhysicalDevice;
+    class VulkanLogicalDevice *m_VulkanLogicalDevice;
+
+    inline static VkInstance m_Instance;
 };
 
 #endif // VULKAN_INSTANCE_H

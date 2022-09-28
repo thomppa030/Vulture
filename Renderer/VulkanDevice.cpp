@@ -1,25 +1,25 @@
 #include "VulkanDevice.h"
-#include "utilities.h"
 #include "VulkanValidation.h"
+#include "VulkanInstance.h"
+#include "utilities.h"
 
 #include "pch.h"
 
-VulkanPhysicalDevice::VulkanPhysicalDevice(VkInstance instance)
+VulkanPhysicalDevice::VulkanPhysicalDevice()
 {
     SCOPED_TIMER;
-    m_Instance = instance;
-    PickPhysicalDevice(m_Instance);
+    PickPhysicalDevice();
 }
 
 VulkanPhysicalDevice::~VulkanPhysicalDevice()
 {
 }
 
-void VulkanPhysicalDevice::PickPhysicalDevice(VkInstance instance)
+void VulkanPhysicalDevice::PickPhysicalDevice()
 {
     SCOPED_TIMER;
     uint32_t deviceCount = 0;
-    vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+    vkEnumeratePhysicalDevices(VulkanInstance::GetInstance(), &deviceCount, nullptr);
 
     if (deviceCount == 0)
     {
@@ -27,7 +27,7 @@ void VulkanPhysicalDevice::PickPhysicalDevice(VkInstance instance)
     }
 
     std::vector<VkPhysicalDevice> devices(deviceCount);
-    vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+    vkEnumeratePhysicalDevices(VulkanInstance::GetInstance(), &deviceCount, devices.data());
 
     for (const auto &device : devices)
     {
@@ -46,12 +46,10 @@ void VulkanPhysicalDevice::PickPhysicalDevice(VkInstance instance)
     std::cout << "Physical Device found" << std::endl;
 }
 
-VulkanLogicalDevice::VulkanLogicalDevice(VkInstance instance)
+VulkanLogicalDevice::VulkanLogicalDevice()
 {
     SCOPED_TIMER;
-    m_Instance = instance;
-    m_PhysicalDevice = VulkanPhysicalDevice(m_Instance).GetPhysicalDevice();
-    CreateLogicalDevice(m_PhysicalDevice);
+    CreateLogicalDevice();
 }
 
 VulkanLogicalDevice::~VulkanLogicalDevice()
@@ -60,41 +58,46 @@ VulkanLogicalDevice::~VulkanLogicalDevice()
     vkDestroyDevice(m_LogicalDevice, nullptr);
 }
 
-void VulkanLogicalDevice::CreateLogicalDevice(VkPhysicalDevice physicalDevice)
+void VulkanLogicalDevice::CreateLogicalDevice()
 {
     SCOPED_TIMER;
-    QueueFamilyIndices indices = FindQueueFamilies(physicalDevice);
+    QueueFamilyIndices indices = FindQueueFamilies(VulkanPhysicalDevice::GetPhysicalDevice());
 
-        VkDeviceQueueCreateInfo queueCreateInfo{};
-        queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-        queueCreateInfo.queueFamilyIndex = indices.graphicsFamily.value();
-        queueCreateInfo.queueCount = 1;
+    VkDeviceQueueCreateInfo queueCreateInfo{};
+    queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+    queueCreateInfo.queueFamilyIndex = indices.graphicsFamily;
+    queueCreateInfo.queueCount = 1;
 
-        float queuePriority = 1.0f;
-        queueCreateInfo.pQueuePriorities = &queuePriority;
+    float queuePriority = 1.0f;
+    queueCreateInfo.pQueuePriorities = &queuePriority;
 
-        VkPhysicalDeviceFeatures deviceFeatures{};
+    VkPhysicalDeviceFeatures deviceFeatures{};
 
-        VkDeviceCreateInfo createInfo{};
-        createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+    VkDeviceCreateInfo createInfo{};
+    createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 
-        createInfo.pQueueCreateInfos = &queueCreateInfo;
-        createInfo.queueCreateInfoCount = 1;
+    createInfo.pQueueCreateInfos = &queueCreateInfo;
+    createInfo.queueCreateInfoCount = 1;
 
-        createInfo.pEnabledFeatures = &deviceFeatures;
+    createInfo.pEnabledFeatures = &deviceFeatures;
 
-        createInfo.enabledExtensionCount = 0;
+    createInfo.enabledExtensionCount = 0;
 
-        if (enableValidationLayers) {
-            createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-            createInfo.ppEnabledLayerNames = validationLayers.data();
-        } else {
-            createInfo.enabledLayerCount = 0;
-        }
+    if (enableValidationLayers)
+    {
+        createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+        createInfo.ppEnabledLayerNames = validationLayers.data();
+    }
+    else
+    {
+        createInfo.enabledLayerCount = 0;
+    }
 
-        if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &m_LogicalDevice) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create logical device!");
-        }
+    if (vkCreateDevice(VulkanPhysicalDevice::GetPhysicalDevice(), &createInfo, nullptr, &m_LogicalDevice) != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to create logical device!");
+    }
 
-        vkGetDeviceQueue(m_LogicalDevice, indices.graphicsFamily.value(), 0, &m_GraphicsQueue);
+    vkGetDeviceQueue(m_LogicalDevice, indices.graphicsFamily, 0, &m_GraphicsQueue);
+    vkGetDeviceQueue(m_LogicalDevice, indices.presentFamily, 0, &m_PresentQueue);
 }

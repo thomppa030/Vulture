@@ -1,18 +1,30 @@
-#include "pch.h"
 #include "VulkanRenderer.h"
-#include "VulkanInstance.h"
-#include "VulkanWindow.h"
 #include "VulkanDebugMessenger.h"
+#include "VulkanInstance.h"
+#include "VulkanSurface.h"
+#include "VulkanWindow.h"
+#include "pch.h"
 
 VulkanRenderer::VulkanRenderer()
 {
     SCOPED_TIMER;
-    m_VulkanInstance = std::make_shared<VulkanInstance>();
-    m_VulkanWindow =  std::make_shared<VulkanWindow>();
+    
+    initWindow();
+    m_VulkanInstance = std::make_shared<VulkanInstance>(m_Window);
 }
 
 VulkanRenderer::~VulkanRenderer()
 {
+}
+
+void VulkanRenderer::initWindow()
+{
+    SCOPED_TIMER;
+    glfwInit();
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
+    m_Window = glfwCreateWindow(1920, 1080, "Vulkan", nullptr, nullptr);
 }
 
 void VulkanRenderer::Run()
@@ -24,7 +36,10 @@ void VulkanRenderer::Run()
 
 void VulkanRenderer::RenderLoop()
 {
-    while (!glfwWindowShouldClose(m_VulkanWindow->GetWindow()))
+    while (!glfwWindowShouldClose(m_Window))
+    {
+        glfwPollEvents();
+    }
     {
         glfwPollEvents();
     }

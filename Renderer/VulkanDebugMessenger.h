@@ -5,7 +5,7 @@
 class VulkanDebugMessenger
 {
 public:
-    VulkanDebugMessenger(VkInstance instance);
+    VulkanDebugMessenger();
     ~VulkanDebugMessenger();
 
     void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &info);
@@ -13,7 +13,6 @@ public:
 
 private:
 
-    VkInstance m_Instance;
     VkDebugUtilsMessengerEXT m_DebugMessenger;
 
     static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,

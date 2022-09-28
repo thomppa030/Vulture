@@ -3,7 +3,7 @@
 #include "pch.h"
 #include <iostream>
 
-VulkanDebugMessenger::VulkanDebugMessenger(VkInstance instance) : m_Instance(instance)
+VulkanDebugMessenger::VulkanDebugMessenger()
 {
     SCOPED_TIMER;
     SetupDebugMessenger();
@@ -12,7 +12,7 @@ VulkanDebugMessenger::VulkanDebugMessenger(VkInstance instance) : m_Instance(ins
 VulkanDebugMessenger::~VulkanDebugMessenger()
 {
     SCOPED_TIMER;
-    DestroyDebugUtilsMessengerEXT(m_Instance, m_DebugMessenger, nullptr);
+    DestroyDebugUtilsMessengerEXT(VulkanInstance::GetInstance(), m_DebugMessenger, nullptr);
 }
 
 void VulkanDebugMessenger::SetupDebugMessenger()
@@ -20,7 +20,7 @@ void VulkanDebugMessenger::SetupDebugMessenger()
     VkDebugUtilsMessengerCreateInfoEXT createInfo;
     PopulateDebugMessengerCreateInfo(createInfo);
 
-    if (CreateDebugUtilsMessengerEXT(m_Instance, &createInfo, nullptr, &m_DebugMessenger) != VK_SUCCESS)
+    if (CreateDebugUtilsMessengerEXT(VulkanInstance::GetInstance(), &createInfo, nullptr, &m_DebugMessenger) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to set up debug messenger!");
     }

@@ -3,7 +3,6 @@
 
 VulkanWindow::VulkanWindow()
 {
-    m_Window = nullptr;
     InitWindow();
 }
 

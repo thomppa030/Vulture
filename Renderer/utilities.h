@@ -2,16 +2,15 @@
 #define VULKAN_UTILITIES_H
 
 #include "pch.h"
-#include <optional>
 
 struct QueueFamilyIndices
 {
-    std::optional<uint32_t> graphicsFamily;
-    std::optional<uint32_t> presentFamily;
+    int32_t graphicsFamily{-1};
+    int32_t presentFamily{-1};
 
     bool isComplete()
     {
-        return graphicsFamily.has_value() && presentFamily.has_value();
+        return graphicsFamily >= 0 && presentFamily >= 0;
     }
 };
 

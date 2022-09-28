@@ -5,7 +5,6 @@
 
 typedef struct
 {
-
     VkPhysicalDevice physicalDevice;
     VkDevice logicalDevice;
     VkQueue graphicsQueue;
@@ -17,35 +16,32 @@ typedef struct
     VkQueue videoDecodeQueue;
     VkQueue videoEncodeQueue;
     VkQueue videoQueue;
-
 } VulkanDevice;
 
 class VulkanPhysicalDevice
 {
 public:
-    VulkanPhysicalDevice(VkInstance instance);
+    VulkanPhysicalDevice();
     ~VulkanPhysicalDevice();
 
-    void PickPhysicalDevice(VkInstance instance);
-    void CreateLogicalDevice();
+    void PickPhysicalDevice();
 
-    VkPhysicalDevice GetPhysicalDevice()
+    static VkPhysicalDevice GetPhysicalDevice()
     {
         return m_PhysicalDevice;
     }
 
 private:
-    VkInstance m_Instance;
-    VkPhysicalDevice m_PhysicalDevice = VK_NULL_HANDLE;
+    inline static VkPhysicalDevice m_PhysicalDevice = VK_NULL_HANDLE;
 };
 
 class VulkanLogicalDevice
 {
 public:
-    VulkanLogicalDevice(VkInstance instance);
+    VulkanLogicalDevice();
     ~VulkanLogicalDevice();
 
-    void CreateLogicalDevice(VkPhysicalDevice physicalDevice);
+    void CreateLogicalDevice();
 
     VkDevice GetLogicalDevice()
     {
@@ -53,10 +49,12 @@ public:
     }
 
 private:
-    VkInstance m_Instance;
+    VkSurfaceKHR m_Surface;
     VkPhysicalDevice m_PhysicalDevice;
     VkDevice m_LogicalDevice;
+
     VkQueue m_GraphicsQueue;
+    VkQueue m_PresentQueue;
 };
 
 #endif // VULKADEVICE_H

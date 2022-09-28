@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "utilities.h"
+#include "VulkanSurface.h"
 
 const bool IsDeviceSuitable(VkPhysicalDevice device)
 {
@@ -28,10 +29,10 @@ QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device)
             indices.graphicsFamily = i;
         }
 
-/*         VkBool32 presentSupport = false;
-        vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport); */
+        VkBool32 presentSupport = false;
+        vkGetPhysicalDeviceSurfaceSupportKHR(device, i, VulkanSurface::GetSurface(), &presentSupport);
 
-        if (queueFamily.queueCount > 0)
+        if (presentSupport)
         {
             indices.presentFamily = i;
         }
