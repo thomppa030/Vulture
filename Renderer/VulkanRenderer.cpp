@@ -1,9 +1,6 @@
-#include "VulkanRenderer.h"
-#include "VulkanDebugMessenger.h"
-#include "VulkanInstance.h"
-#include "VulkanSurface.h"
-#include "VulkanWindow.h"
 #include "pch.h"
+#include "VulkanRenderer.h"
+#include "VulkanInstance.h"
 
 VulkanRenderer::VulkanRenderer()
 {

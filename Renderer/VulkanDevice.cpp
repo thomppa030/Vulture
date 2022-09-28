@@ -1,9 +1,10 @@
+#include "pch.h"
+
 #include "VulkanDevice.h"
 #include "VulkanValidation.h"
 #include "VulkanInstance.h"
 #include "utilities.h"
 
-#include "pch.h"
 
 VulkanPhysicalDevice::VulkanPhysicalDevice()
 {

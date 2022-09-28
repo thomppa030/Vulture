@@ -1,6 +1,6 @@
+#include "pch.h"
 #include "VulkanDebugMessenger.h"
 #include "VulkanInstance.h"
-#include "pch.h"
 #include <iostream>
 
 VulkanDebugMessenger::VulkanDebugMessenger()

@@ -15,7 +15,6 @@ public:
 
 private:
     std::shared_ptr<class VulkanInstance> m_VulkanInstance;
-    std::shared_ptr<class VulkanSurface> m_VulkanSurface;
     GLFWwindow *m_Window;
 };
 
