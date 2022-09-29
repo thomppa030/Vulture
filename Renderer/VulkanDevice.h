@@ -43,7 +43,7 @@ public:
 
     void CreateLogicalDevice();
 
-    VkDevice GetLogicalDevice()
+    static VkDevice GetLogicalDevice()
     {
         return m_LogicalDevice;
     }
@@ -51,7 +51,7 @@ public:
 private:
     VkSurfaceKHR m_Surface;
     VkPhysicalDevice m_PhysicalDevice;
-    VkDevice m_LogicalDevice;
+    inline static VkDevice m_LogicalDevice;
 
     VkQueue m_GraphicsQueue;
     VkQueue m_PresentQueue;

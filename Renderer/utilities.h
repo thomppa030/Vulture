@@ -3,10 +3,17 @@
 
 #include "pch.h"
 
+struct SwapChainSupportDetails
+{
+    VkSurfaceCapabilitiesKHR capabilities;
+    std::vector<VkSurfaceFormatKHR> formats;
+    std::vector<VkPresentModeKHR> presentModes;
+};
+
 struct QueueFamilyIndices
 {
-    int32_t graphicsFamily{-1};
-    int32_t presentFamily{-1};
+    uint32_t graphicsFamily{0};
+    uint32_t presentFamily{0};
 
     bool isComplete()
     {
@@ -14,8 +21,12 @@ struct QueueFamilyIndices
     }
 };
 
+SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice device);
 QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
 
+const std::vector<const char *> deviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+
 const bool IsDeviceSuitable(VkPhysicalDevice device);
+bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
 
 #endif

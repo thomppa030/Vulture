@@ -23,6 +23,7 @@ private:
 
     class VulkanDebugMessenger *m_VulkanDebugMessenger;
     class VulkanSurface *m_VulkanSurface;
+    class VulkanSwapchain *m_VulkanSwapchain;
     class VulkanPhysicalDevice *m_VulkanPhysicalDevice;
     class VulkanLogicalDevice *m_VulkanLogicalDevice;
 

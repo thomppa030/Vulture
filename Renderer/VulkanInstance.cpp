@@ -4,6 +4,7 @@
 #include "VulkanDevice.h"
 #include "VulkanValidation.h"
 #include "VulkanSurface.h"
+#include "VulkanSwapchain.h"
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <vector>
@@ -17,14 +18,16 @@ VulkanInstance::VulkanInstance(GLFWwindow *window)
     m_VulkanSurface = new VulkanSurface(m_Window);
     m_VulkanPhysicalDevice = new VulkanPhysicalDevice();
     m_VulkanLogicalDevice = new VulkanLogicalDevice();
+    m_VulkanSwapchain = new VulkanSwapchain(m_Window);
 }
 
 VulkanInstance::~VulkanInstance()
 {
     SCOPED_TIMER;
-    delete m_VulkanSurface;
     delete m_VulkanLogicalDevice;
     delete m_VulkanDebugMessenger;
+    delete m_VulkanSwapchain;
+    delete m_VulkanSurface;
     vkDestroyInstance(m_Instance, nullptr);
 }
 
