@@ -11,6 +11,7 @@ class VulkanSwapchain {
         ~VulkanSwapchain();
 
         void CreateSwapchain(GLFWwindow *window);
+        void CreateImageViews();
 
         VkSwapchainKHR GetSwapchain()
         {
