@@ -26,6 +26,7 @@ private:
     class VulkanSwapchain *m_VulkanSwapchain;
     class VulkanPhysicalDevice *m_VulkanPhysicalDevice;
     class VulkanLogicalDevice *m_VulkanLogicalDevice;
+    class VulkanGraphicsPipeline *m_VulkanGraphicsPipeline;
 
     inline static VkInstance m_Instance;
 };
