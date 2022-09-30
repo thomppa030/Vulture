@@ -26,10 +26,6 @@ VulkanInstance::VulkanInstance(GLFWwindow *window)
 VulkanInstance::~VulkanInstance()
 {
     SCOPED_TIMER;
-    for (auto && imageView : m_VulkanSwapchain->GetSwapchainImageViews())
-    {
-        vkDestroyImageView(m_VulkanLogicalDevice->GetLogicalDevice(), imageView, nullptr);
-    }  
     delete m_VulkanSwapchain;
     delete m_VulkanGraphicsPipeline;
     delete m_VulkanDebugMessenger;
