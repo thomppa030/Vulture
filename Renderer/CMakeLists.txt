@@ -12,6 +12,18 @@ add_library(Renderer STATIC
 	${SRC_FILES} 
 	${HDR_FILES})
 
+set(source "${CMAKE_SOURCE_DIR}/resources")
+set(destination "${CMAKE_CURRENT_BINARY_DIR}/resources")
+
+# Compile shaders
+add_custom_command(TARGET Renderer PRE_BUILD
+COMMAND /bin/sh ${CMAKE_SOURCE_DIR}/Renderer/shaders/compileShader.sh)
+
+add_custom_command(TARGET Renderer
+COMMAND ${CMAKE_COMMAND} -E create_symlink ${source} ${destination}
+DEPENDS ${destination}
+COMMENT "symbolic link resource folder from ${source} => ${destination}")
+
 target_include_directories(Renderer PUBLIC 
 	${RENDERER_INCLUDES}
 	${Vulkan_INCLUDE_DIRS})

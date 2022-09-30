@@ -17,17 +17,17 @@ VulkanGraphicsPipeline::~VulkanGraphicsPipeline()
     vkDestroyPipeline(VulkanLogicalDevice::GetLogicalDevice(), m_GraphicsPipeline, nullptr);
 }
 
-
 void VulkanGraphicsPipeline::createGraphicsPipeline()
 {
     SCOPED_TIMER;
     std::string vertexShaderPath = "shaders/vert.spv";
     std::string fragmentShaderPath = "shaders/frag.spv";
-    auto vertShaderCode = VulkanShader(vertexShaderPath);
-    auto fragShaderCode = VulkanShader(fragmentShaderPath);
 
-    auto vertShaderModule = vertShaderCode.getShaderModule();    
-    auto fragShaderModule = fragShaderCode.getShaderModule();
+    auto vertShaderCode = VulkanShaderUtils::ReadFile(vertexShaderPath);
+    auto fragShaderCode = VulkanShaderUtils::ReadFile(fragmentShaderPath);
+
+    auto vertShaderModule = VulkanShaderUtils::createShaderModule(vertShaderCode);
+    auto fragShaderModule = VulkanShaderUtils::createShaderModule(fragShaderCode);
 
     VkPipelineShaderStageCreateInfo vertShaderStageInfo = {};
     vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -45,6 +45,5 @@ void VulkanGraphicsPipeline::createGraphicsPipeline()
 
     vkDestroyShaderModule(VulkanLogicalDevice::GetLogicalDevice(), vertShaderModule, nullptr);
     vkDestroyShaderModule(VulkanLogicalDevice::GetLogicalDevice(), fragShaderModule, nullptr);
-
 }
 

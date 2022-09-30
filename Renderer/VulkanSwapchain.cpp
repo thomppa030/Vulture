@@ -14,10 +14,6 @@ VulkanSwapchain::VulkanSwapchain(GLFWwindow *window) : m_Window(window)
 VulkanSwapchain::~VulkanSwapchain()
 {
     SCOPED_TIMER;
-    for (auto imageView : m_SwapchainImageViews)
-    {
-        vkDestroyImageView(VulkanLogicalDevice::GetLogicalDevice(), imageView, nullptr);
-    }
     vkDestroySwapchainKHR(VulkanLogicalDevice::GetLogicalDevice(), m_Swapchain, nullptr);
 }
 

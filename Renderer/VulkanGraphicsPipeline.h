@@ -12,6 +12,8 @@ public:
 
     void createGraphicsPipeline();
 
+    VkShaderModule createShaderModule(const std::vector<char> &code);
+
 private:
     VkPipelineLayout m_PipelineLayout;
     VkPipeline m_GraphicsPipeline;

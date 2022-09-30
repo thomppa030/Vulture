@@ -23,6 +23,11 @@ class VulkanSwapchain {
             return m_SwapchainImages;
         }
 
+        std::vector<VkImageView> GetSwapchainImageViews()
+        {
+            return m_SwapchainImageViews;
+        }
+
     private:
         VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
         VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
