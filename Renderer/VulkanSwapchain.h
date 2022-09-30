@@ -13,7 +13,7 @@ class VulkanSwapchain {
         void CreateSwapchain(GLFWwindow *window);
         void CreateImageViews();
 
-        VkSwapchainKHR GetSwapchain()
+        static VkSwapchainKHR GetSwapchain()
         {
             return m_Swapchain;
         }
@@ -28,6 +28,11 @@ class VulkanSwapchain {
             return m_SwapchainImageViews;
         }
 
+        static VkExtent2D GetSwapchainExtent()
+        {
+            return m_SwapchainExtent;
+        }
+
     private:
         VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
         VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
@@ -38,11 +43,11 @@ class VulkanSwapchain {
 
         GLFWwindow *m_Window;
 
-        VkSwapchainKHR m_Swapchain;
+        inline static VkSwapchainKHR m_Swapchain;
         std::vector<VkImage> m_SwapchainImages;
 
         VkFormat m_SwapchainImageFormat;
-        VkExtent2D m_SwapchainExtent;
+        inline static VkExtent2D m_SwapchainExtent;
         std::vector<VkImageView> m_SwapchainImageViews;
 };
 
