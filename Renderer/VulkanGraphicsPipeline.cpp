@@ -1,8 +1,9 @@
-#include "pch.h"
 #include "VulkanGraphicsPipeline.h"
-#include "VulkanSwapchain.h"
 #include "VulkanDevice.h"
 #include "VulkanShader.h"
+#include "VulkanSwapchain.h"
+#include "pch.h"
+#include <dirent.h>
 
 
 VulkanGraphicsPipeline::VulkanGraphicsPipeline()
@@ -21,8 +22,11 @@ VulkanGraphicsPipeline::~VulkanGraphicsPipeline()
 void VulkanGraphicsPipeline::createGraphicsPipeline()
 {
     SCOPED_TIMER;
-    std::string vertexShaderPath = "shaders/vert.spv";
-    std::string fragmentShaderPath = "shaders/frag.spv";
+
+    std::string absolutePath = std::getenv("PWD");
+
+    std::string vertexShaderPath = absolutePath + "/shaders/vert.spv";
+    std::string fragmentShaderPath = absolutePath + "/shaders/frag.spv";
 
     auto vertShaderCode = VulkanShaderUtils::ReadFile(vertexShaderPath);
     auto fragShaderCode = VulkanShaderUtils::ReadFile(fragmentShaderPath);
@@ -71,9 +75,7 @@ void VulkanGraphicsPipeline::createGraphicsPipeline()
     scissor.offset = {0, 0};
     scissor.extent = VulkanSwapchain::GetSwapchainExtent();
 
-    std::vector<VkDynamicState> dynamicStates = {
-        VK_DYNAMIC_STATE_VIEWPORT,
-        VK_DYNAMIC_STATE_LINE_WIDTH};
+    std::vector<VkDynamicState> dynamicStates = {VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_LINE_WIDTH};
 
     VkPipelineDynamicStateCreateInfo dynamicState = {};
     dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
@@ -108,16 +110,17 @@ void VulkanGraphicsPipeline::createGraphicsPipeline()
     multisampling.pSampleMask = nullptr;            // Optional
     multisampling.alphaToCoverageEnable = VK_FALSE; // Optional
     multisampling.alphaToOneEnable = VK_FALSE;      // Optional
-    
+
     VkPipelineColorBlendAttachmentState colorBlendAttachment = {};
-    colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+    colorBlendAttachment.colorWriteMask =
+        VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
     colorBlendAttachment.blendEnable = VK_FALSE;
-    colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE; // Optional
+    colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;  // Optional
     colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ZERO; // Optional
-    colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD; // Optional
-    colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE; // Optional
+    colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;             // Optional
+    colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;  // Optional
     colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO; // Optional
-    colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD; // Optional
+    colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;             // Optional
 
     VkPipelineColorBlendStateCreateInfo colorBlending = {};
     colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
@@ -132,13 +135,16 @@ void VulkanGraphicsPipeline::createGraphicsPipeline()
 
     VkPipelineLayoutCreateInfo pipelineLayoutInfo = {};
     pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-    pipelineLayoutInfo.setLayoutCount = 0; // Optional
-    pipelineLayoutInfo.pSetLayouts = nullptr; // Optional
-    pipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
+    pipelineLayoutInfo.setLayoutCount = 0;            // Optional
+    pipelineLayoutInfo.pSetLayouts = nullptr;         // Optional
+    pipelineLayoutInfo.pushConstantRangeCount = 0;    // Optional
     pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
 
-    if (vkCreatePipelineLayout(VulkanLogicalDevice::GetLogicalDevice(), &pipelineLayoutInfo, nullptr, &m_PipelineLayout) != VK_SUCCESS) {
+    if (vkCreatePipelineLayout(VulkanLogicalDevice::GetLogicalDevice(),
+                               &pipelineLayoutInfo,
+                               nullptr,
+                               &m_PipelineLayout) != VK_SUCCESS)
+    {
         throw std::runtime_error("failed to create pipeline layout!");
     }
 }
-

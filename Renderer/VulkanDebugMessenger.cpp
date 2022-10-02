@@ -1,6 +1,6 @@
-#include "pch.h"
 #include "VulkanDebugMessenger.h"
 #include "VulkanInstance.h"
+#include "pch.h"
 #include <iostream>
 
 VulkanDebugMessenger::VulkanDebugMessenger()
@@ -20,7 +20,8 @@ void VulkanDebugMessenger::SetupDebugMessenger()
     VkDebugUtilsMessengerCreateInfoEXT createInfo;
     PopulateDebugMessengerCreateInfo(createInfo);
 
-    if (CreateDebugUtilsMessengerEXT(VulkanInstance::GetInstance(), &createInfo, nullptr, &m_DebugMessenger) != VK_SUCCESS)
+    if (CreateDebugUtilsMessengerEXT(VulkanInstance::GetInstance(), &createInfo, nullptr, &m_DebugMessenger) !=
+        VK_SUCCESS)
     {
         throw std::runtime_error("failed to set up debug messenger!");
     }

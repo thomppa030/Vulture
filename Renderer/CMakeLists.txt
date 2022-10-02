@@ -12,12 +12,13 @@ add_library(Renderer STATIC
 	${SRC_FILES} 
 	${HDR_FILES})
 
-set(source "${CMAKE_SOURCE_DIR}/resources")
-set(destination "${CMAKE_CURRENT_BINARY_DIR}/resources")
+set(source "${PROJECT_SOURCE_DIR}/shaders")
+set(destination "${PROJECT_BINARY_DIR}/Sandbox/shaders")
 
 # Compile shaders
-add_custom_command(TARGET Renderer PRE_BUILD
-COMMAND /bin/sh ${CMAKE_SOURCE_DIR}/Renderer/shaders/compileShader.sh)
+# add_custom_command(TARGET Renderer PRE_BUILD
+
+# COMMAND /bin/sh ${PROJECT_SOURCE_DIR}/shaders/compileShader.sh)
 
 add_custom_command(TARGET Renderer
 COMMAND ${CMAKE_COMMAND} -E create_symlink ${source} ${destination}
