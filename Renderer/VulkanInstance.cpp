@@ -5,6 +5,7 @@
 #include "VulkanValidation.h"
 #include "VulkanSurface.h"
 #include "VulkanSwapchain.h"
+#include "VulkanRenderPass.h"
 #include "VulkanGraphicsPipeline.h"
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -20,6 +21,7 @@ VulkanInstance::VulkanInstance(GLFWwindow *window)
     m_VulkanPhysicalDevice = new VulkanPhysicalDevice();
     m_VulkanLogicalDevice = new VulkanLogicalDevice();
     m_VulkanSwapchain = new VulkanSwapchain(m_Window);
+    m_VulkanRenderPass = new VulkanRenderPass();
     m_VulkanGraphicsPipeline = new VulkanGraphicsPipeline();
 }
 
@@ -28,6 +30,7 @@ VulkanInstance::~VulkanInstance()
     SCOPED_TIMER;
     delete m_VulkanSwapchain;
     delete m_VulkanGraphicsPipeline;
+    delete m_VulkanRenderPass;
     delete m_VulkanDebugMessenger;
     delete m_VulkanLogicalDevice;
     delete m_VulkanSurface;

@@ -24,6 +24,7 @@ private:
     class VulkanDebugMessenger *m_VulkanDebugMessenger;
     class VulkanSurface *m_VulkanSurface;
     class VulkanSwapchain *m_VulkanSwapchain;
+    class VulkanRenderPass *m_VulkanRenderPass;
     class VulkanPhysicalDevice *m_VulkanPhysicalDevice;
     class VulkanLogicalDevice *m_VulkanLogicalDevice;
     class VulkanGraphicsPipeline *m_VulkanGraphicsPipeline;

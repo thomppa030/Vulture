@@ -33,6 +33,11 @@ class VulkanSwapchain {
             return m_SwapchainExtent;
         }
 
+        static VkFormat GetSwapchainImageFormat()
+        {
+            return m_SwapchainImageFormat;
+        }
+
     private:
         VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
         VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
@@ -46,8 +51,9 @@ class VulkanSwapchain {
         inline static VkSwapchainKHR m_Swapchain;
         std::vector<VkImage> m_SwapchainImages;
 
-        VkFormat m_SwapchainImageFormat;
+        inline static VkFormat m_SwapchainImageFormat;
         inline static VkExtent2D m_SwapchainExtent;
+
         std::vector<VkImageView> m_SwapchainImageViews;
 };
 
