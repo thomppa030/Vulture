@@ -16,6 +16,8 @@ public:
         return m_Instance;
     }
 
+    void drawFrame();
+
 private:
     GLFWwindow *m_Window;
 
@@ -28,6 +30,21 @@ private:
     class VulkanPhysicalDevice *m_VulkanPhysicalDevice;
     class VulkanLogicalDevice *m_VulkanLogicalDevice;
     class VulkanGraphicsPipeline *m_VulkanGraphicsPipeline;
+
+    VkCommandPool m_CommandPool;
+    std::vector<VkCommandBuffer> m_CommandBuffers;
+
+    std::vector<VkSemaphore> m_ImageAvailableSemaphores;
+    std::vector<VkSemaphore> m_RenderFinishedSemaphores;
+    std::vector<VkFence> m_InFlightFences;
+
+
+    void createCommandPool();
+    void createCommandBuffer();
+    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+    void createSyncObjects();
+
+    uint32_t m_CurrentFrame{0};
 
     inline static VkInstance m_Instance;
 };

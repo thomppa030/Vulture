@@ -20,6 +20,11 @@ VulkanSwapchain::~VulkanSwapchain()
         vkDestroyImageView(VulkanLogicalDevice::GetLogicalDevice(), imageView, nullptr);
     }
 
+    for (auto && framebuffer : m_SwapchainFramebuffers)
+    {
+        vkDestroyFramebuffer(VulkanLogicalDevice::GetLogicalDevice(), framebuffer, nullptr);
+    }
+
     vkDestroySwapchainKHR(VulkanLogicalDevice::GetLogicalDevice(), m_Swapchain, nullptr);
 }
 
@@ -200,4 +205,30 @@ void VulkanSwapchain::CreateImageViews()
     std::cout << "Created " << m_SwapchainImageViews.size() << " swapchain image views." << std::endl;
 }
 
+void VulkanSwapchain::CreateFramebuffers(VkRenderPass renderpass)
+{
+    SCOPED_TIMER;
+    m_SwapchainFramebuffers.resize(m_SwapchainImageViews.size());
+
+    for (size_t i = 0; i < m_SwapchainImageViews.size(); i++)
+    {
+        VkImageView attachments[] = {m_SwapchainImageViews[i]};
+
+        VkFramebufferCreateInfo framebufferInfo = {};
+        framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+        framebufferInfo.renderPass = renderpass;
+        framebufferInfo.attachmentCount = 1;
+        framebufferInfo.pAttachments = attachments;
+        framebufferInfo.width = m_SwapchainExtent.width;
+        framebufferInfo.height = m_SwapchainExtent.height;
+        framebufferInfo.layers = 1;
+
+        if (vkCreateFramebuffer(VulkanLogicalDevice::GetLogicalDevice(), &framebufferInfo, nullptr, &m_SwapchainFramebuffers[i]) != VK_SUCCESS)
+        {
+            throw std::runtime_error("failed to create framebuffer!");
+        }
+    }
+
+    std::cout << "Created " << m_SwapchainFramebuffers.size() << " swapchain framebuffers." << std::endl;
+}
 

@@ -1,11 +1,12 @@
-#include "pch.h"
 #include "VulkanRenderer.h"
 #include "VulkanInstance.h"
+#include "VulkanDevice.h"
+#include "pch.h"
 
 VulkanRenderer::VulkanRenderer()
 {
     SCOPED_TIMER;
-    
+
     initWindow();
     m_VulkanInstance = std::make_shared<VulkanInstance>(m_Window);
 }
@@ -36,10 +37,10 @@ void VulkanRenderer::RenderLoop()
     while (!glfwWindowShouldClose(m_Window))
     {
         glfwPollEvents();
+        m_VulkanInstance->drawFrame();
     }
-    {
-        glfwPollEvents();
-    }
+
+    vkDeviceWaitIdle(VulkanLogicalDevice::GetLogicalDevice());
 }
 
 void VulkanRenderer::Shutdown()

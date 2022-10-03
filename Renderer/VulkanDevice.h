@@ -48,6 +48,16 @@ public:
         return m_LogicalDevice;
     }
 
+    VkQueue GetGraphicsQueue()
+    {
+        return m_GraphicsQueue;
+    }
+
+    VkQueue GetPresentQueue()
+    {
+        return m_PresentQueue;
+    }
+
 private:
     VkSurfaceKHR m_Surface;
     VkPhysicalDevice m_PhysicalDevice;

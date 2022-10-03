@@ -10,6 +10,8 @@ public:
     VulkanGraphicsPipeline();
     ~VulkanGraphicsPipeline();
 
+    const VkPipeline &GetPipeline() const { return m_GraphicsPipeline; }
+
     void createGraphicsPipeline();
 
     VkShaderModule createShaderModule(const std::vector<char> &code);

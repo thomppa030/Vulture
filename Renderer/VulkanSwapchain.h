@@ -13,6 +13,8 @@ class VulkanSwapchain {
         void CreateSwapchain(GLFWwindow *window);
         void CreateImageViews();
 
+        void CreateFramebuffers(VkRenderPass renderPass);
+
         static VkSwapchainKHR GetSwapchain()
         {
             return m_Swapchain;
@@ -26,6 +28,11 @@ class VulkanSwapchain {
         std::vector<VkImageView> GetSwapchainImageViews()
         {
             return m_SwapchainImageViews;
+        }
+
+        std::vector<VkFramebuffer> GetFramebuffers()
+        {
+            return m_SwapchainFramebuffers;
         }
 
         static VkExtent2D GetSwapchainExtent()
@@ -55,6 +62,7 @@ class VulkanSwapchain {
         inline static VkExtent2D m_SwapchainExtent;
 
         std::vector<VkImageView> m_SwapchainImageViews;
+        std::vector<VkFramebuffer> m_SwapchainFramebuffers;
 };
 
 #endif // VULKAN_SWAPCHAIN_H
