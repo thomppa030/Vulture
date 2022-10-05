@@ -58,6 +58,8 @@ public:
         return m_PresentQueue;
     }
 
+    static uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+
 private:
     VkSurfaceKHR m_Surface;
     VkPhysicalDevice m_PhysicalDevice;

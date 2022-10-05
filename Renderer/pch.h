@@ -6,4 +6,6 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <array>
 #include <vulkan/vulkan.h>

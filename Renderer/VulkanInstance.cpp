@@ -6,6 +6,7 @@
 #include "VulkanSurface.h"
 #include "VulkanSwapchain.h"
 #include "VulkanValidation.h"
+#include "VulkanBuffer.h"
 #include "pch.h"
 #include "utilities.h"
 #include <GLFW/glfw3.h>
@@ -13,6 +14,11 @@
 #include <vector>
 
 constexpr int MAX_FRAMES_IN_FLIGHT = 2;
+
+const std::vector<Vertex> vertices = {
+    {{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+    {{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+    {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}};
 
 VulkanInstance::VulkanInstance(GLFWwindow *window) : m_Window(window)
 {
@@ -27,6 +33,7 @@ VulkanInstance::VulkanInstance(GLFWwindow *window) : m_Window(window)
     m_VulkanGraphicsPipeline = new VulkanGraphicsPipeline();
     m_VulkanSwapchain->CreateFramebuffers(m_VulkanRenderPass->GetRenderPass());
     createCommandPool();
+    m_VulkanVertexBuffer = new VulkanVertexBuffer(vertices);
     createCommandBuffer();
     createSyncObjects();
 }
@@ -44,6 +51,7 @@ VulkanInstance::~VulkanInstance()
 
     vkDestroyCommandPool(VulkanLogicalDevice::GetLogicalDevice(), m_CommandPool, nullptr);
     delete m_VulkanGraphicsPipeline;
+    delete m_VulkanVertexBuffer;
     delete m_VulkanSwapchain;
     delete m_VulkanRenderPass;
     delete m_VulkanDebugMessenger;
@@ -198,7 +206,11 @@ void VulkanInstance::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t
 
     vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
-    vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+    VkBuffer vertexBuffers[] = {m_VulkanVertexBuffer->GetVertexBuffer()};
+    VkDeviceSize offsets[] = {0};
+    vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
+
+    vkCmdDraw(commandBuffer, static_cast<uint32_t>(vertices.size()), 1, 0, 0);
 
     vkCmdEndRenderPass(commandBuffer);
 

@@ -30,6 +30,7 @@ private:
     class VulkanPhysicalDevice *m_VulkanPhysicalDevice;
     class VulkanLogicalDevice *m_VulkanLogicalDevice;
     class VulkanGraphicsPipeline *m_VulkanGraphicsPipeline;
+    class VulkanVertexBuffer *m_VulkanVertexBuffer;
 
     VkCommandPool m_CommandPool;
     std::vector<VkCommandBuffer> m_CommandBuffers;

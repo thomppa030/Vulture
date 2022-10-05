@@ -10,7 +10,7 @@ find_package(Vulkan REQUIRED)
 
 add_library(Renderer STATIC 
 	${SRC_FILES} 
-	${HDR_FILES})
+	${HDR_FILES} VulkanBuffer.cpp VulkanBuffer.h)
 
 set(source "${PROJECT_SOURCE_DIR}/shaders")
 set(destination "${PROJECT_BINARY_DIR}/Sandbox/shaders")
@@ -32,6 +32,7 @@ target_include_directories(Renderer PUBLIC
 target_link_libraries(Renderer PUBLIC
 	glfw
 	fmt::fmt
+	glm::glm
 	Vulkan::Vulkan)
 
 target_precompile_headers(Renderer PRIVATE "pch.h")

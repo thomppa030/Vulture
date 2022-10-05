@@ -9,7 +9,10 @@ public:
     VulkanRenderPass();
     ~VulkanRenderPass();
 
-	static VkRenderPass GetRenderPass() { return m_RenderPass; }
+    static VkRenderPass GetRenderPass()
+    {
+        return m_RenderPass;
+    }
     void createRenderPass();
 
 private:
